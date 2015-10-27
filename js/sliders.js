@@ -3,6 +3,7 @@
         this.sliderParent = '';
         this.sliderEl = el;
         this.cntSlidesCnt = $($(el).children('ul')[0]).children('li').length;
+        this.sliderW = 640;
     };
 
     slider.prototype.init = function () {
@@ -79,31 +80,44 @@
         var slide = $(sliderInn).children('li');
         var sliderCnt = slide.length;
 
-        $(sliderInn).css({
-            marginLeft : (slideMarg - 640) + "px"
-        });
+        if (slideMarg <= -((sliderCnt) * this.sliderW)) {
+            alert(slideMarg);
+            $(sliderInn).css({
+                marginLeft: (slideMarg - this.sliderW) + "px"
+            });
 
-        var to = ((slideMarg - 640) / 640);
+            var to = ((slideMarg - this.sliderW) / this.sliderW);
 
-        $(slider.parent()).children('.slider-ind').children('li').removeClass('activ-ind');
-        $($(slider.parent()).children('.slider-ind').children('li')[to]).addClass('activ-ind');
+            $(slider.parent()).children('.slider-ind').children('li').removeClass('activ-ind');
+            $($(slider.parent()).children('.slider-ind').children('li')[Math.abs(to)]).addClass('activ-ind');
+        }else{
+            $(sliderInn).css({
+                marginLeft: 0
+            });
+        }
     };
 
-    slider.prototype.slideRight = function () {
+    slider.prototype.slideRight = function (slideMarg) {
         var slider = $(this.sliderEl);
         var sliderW = $(this.sliderEl).width();
         var sliderInn = slider.children('ul')[0];
         var slide = $(sliderInn).children('li');
         var sliderCnt = slide.length;
 
-        $(sliderInn).css({
-            marginLeft : (slideMarg + 640) + "px"
-        });
+        if (slideMarg < 0) {
+            $(sliderInn).css({
+                marginLeft: (slideMarg + this.sliderW) + "px"
+            });
 
-        var to = ((slideMarg + 640) / 640);
+            var to = ((slideMarg + this.sliderW) / this.sliderW);
 
-        $(slider.parent()).children('.slider-ind').children('li').removeClass('activ-ind');
-        $($(slider.parent()).children('.slider-ind').children('li')[to]).addClass('activ-ind');
+            $(slider.parent()).children('.slider-ind').children('li').removeClass('activ-ind');
+            $($(slider.parent()).children('.slider-ind').children('li')[Math.abs(to)]).addClass('activ-ind');
+        }else{
+            $(sliderInn).css({
+                marginLeft: 0
+            });
+        }
     };
 
 
