@@ -80,19 +80,24 @@
         var slide = $(sliderInn).children('li');
         var sliderCnt = slide.length;
 
-        if (slideMarg <= -((sliderCnt) * this.sliderW)) {
-            alert(slideMarg);
-            $(sliderInn).css({
-                marginLeft: (slideMarg - this.sliderW) + "px"
-            });
+        if ((slideMarg%this.sliderW) == 0) {
+            if (slideMarg > -((sliderCnt-2) * this.sliderW)) {
+                $(sliderInn).css({
+                    marginLeft: (slideMarg - this.sliderW) + "px"
+                });
 
-            var to = ((slideMarg - this.sliderW) / this.sliderW);
+                var to = ((slideMarg - this.sliderW) / this.sliderW);
 
-            $(slider.parent()).children('.slider-ind').children('li').removeClass('activ-ind');
-            $($(slider.parent()).children('.slider-ind').children('li')[Math.abs(to)]).addClass('activ-ind');
+                $(slider.parent()).children('.slider-ind').children('li').removeClass('activ-ind');
+                $($(slider.parent()).children('.slider-ind').children('li')[Math.abs(to)]).addClass('activ-ind');
+            }else{
+                $(sliderInn).css({
+                    marginLeft: '-' + ((sliderCnt-1) * this.sliderW) + 'px'
+                });
+            }
         }else{
             $(sliderInn).css({
-                marginLeft: 0
+                marginLeft: slideMarg + 'px'
             });
         }
     };
@@ -104,18 +109,24 @@
         var slide = $(sliderInn).children('li');
         var sliderCnt = slide.length;
 
-        if (slideMarg < 0) {
-            $(sliderInn).css({
-                marginLeft: (slideMarg + this.sliderW) + "px"
-            });
+        if ((slideMarg%this.sliderW) == 0) {
+            if (slideMarg < 0 && (slideMarg % this.sliderW) == 0) {
+                $(sliderInn).css({
+                    marginLeft: (slideMarg + this.sliderW) + "px"
+                });
 
-            var to = ((slideMarg + this.sliderW) / this.sliderW);
+                var to = ((slideMarg + this.sliderW) / this.sliderW);
 
-            $(slider.parent()).children('.slider-ind').children('li').removeClass('activ-ind');
-            $($(slider.parent()).children('.slider-ind').children('li')[Math.abs(to)]).addClass('activ-ind');
+                $(slider.parent()).children('.slider-ind').children('li').removeClass('activ-ind');
+                $($(slider.parent()).children('.slider-ind').children('li')[Math.abs(to)]).addClass('activ-ind');
+            } else {
+                $(sliderInn).css({
+                    marginLeft: 0
+                });
+            }
         }else{
             $(sliderInn).css({
-                marginLeft: 0
+                marginLeft: slideMarg + 'px'
             });
         }
     };
