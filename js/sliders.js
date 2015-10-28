@@ -90,14 +90,21 @@
 
                 $(slider.parent()).children('.slider-ind').children('li').removeClass('activ-ind');
                 $($(slider.parent()).children('.slider-ind').children('li')[Math.abs(to)]).addClass('activ-ind');
+                console.log(Math.abs(to));
             }else{
                 $(sliderInn).css({
                     marginLeft: '-' + ((sliderCnt-1) * this.sliderW) + 'px'
                 });
+
+                to = (($(sliderInn).css('margin-left') - this.sliderW) / this.sliderW);
+
+                $(slider.parent()).children('.slider-ind').children('li').removeClass('activ-ind');
+                $($(slider.parent()).children('.slider-ind').children('li')[Math.abs(to)]).addClass('activ-ind');
+                console.log(Math.abs(to));
             }
         }else{
             $(sliderInn).css({
-                marginLeft: slideMarg + 'px'
+                marginLeft: (slideMarg-(slideMarg%this.sliderW)) + 'px'
             });
         }
     };
@@ -126,7 +133,7 @@
             }
         }else{
             $(sliderInn).css({
-                marginLeft: slideMarg + 'px'
+                marginLeft: (slideMarg-(slideMarg%this.sliderW)) + 'px'
             });
         }
     };
@@ -134,7 +141,7 @@
 
 $(document).ready(function () {
     var directionX = false;
-    var s, di, j, sliderDir, touchMarg;
+    var s, di, j, sliderDir = 2, touchMarg;
     var slAv = new slider('#avantajele-slider');
     var slRec = new slider('#recenzii-slider');
     var slDs = new slider('#dscr-slider');
@@ -192,25 +199,23 @@ $(document).ready(function () {
             var y = event.touches[0].pageY;
             var x = event.touches[0].pageX;
 
-            sliderDir = j > x ? true : false;
-
-            if (Math.abs(j - x) > 50) {
+            if (Math.abs(j - x) > 30 && (Math.abs(j - x)+30) > Math.abs(s - y)) {
+                sliderDir = j > x ? true : false;
                 event.preventDefault();
 
-                directionX = true;
-            }
-
-            if (directionX) {
                 this.style.marginLeft = (parseInt($(this).css('marginLeft')) - (parseInt(j) - parseInt(x))) + 'px';
                 j = x;
             }
+
             s = y;
     }, false);
 
     document.getElementById('dscr-slider-inner').addEventListener('touchend', function(event) {
         $(this).addClass('sliderTrans');
 
-        sliderDir ? slDs.slideLeft(touchMarg) : slDs.slideRight(touchMarg);
+        if (sliderDir != 2) {
+            sliderDir ? slDs.slideLeft(touchMarg) : slDs.slideRight(touchMarg);
+        }
         //
         //directionX = false;
         //if (xPoint = ( Math.abs( parseInt($(this).css('marginLeft')) / 640)).toFixed()) {
