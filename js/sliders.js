@@ -90,7 +90,6 @@
 
                 $(slider.parent()).children('.slider-ind').children('li').removeClass('activ-ind');
                 $($(slider.parent()).children('.slider-ind').children('li')[Math.abs(to)]).addClass('activ-ind');
-                console.log(Math.abs(to));
             }else{
                 $(sliderInn).css({
                     marginLeft: '-' + ((sliderCnt-1) * this.sliderW) + 'px'
@@ -100,11 +99,10 @@
 
                 $(slider.parent()).children('.slider-ind').children('li').removeClass('activ-ind');
                 $($(slider.parent()).children('.slider-ind').children('li')[Math.abs(to)]).addClass('activ-ind');
-                console.log(Math.abs(to));
             }
         }else{
             $(sliderInn).css({
-                marginLeft: (slideMarg-(slideMarg%this.sliderW)) + 'px'
+                marginLeft: (slideMarg-(slideMarg%this.sliderW)-640) + 'px'
             });
         }
     };
@@ -199,15 +197,14 @@ $(document).ready(function () {
             var y = event.touches[0].pageY;
             var x = event.touches[0].pageX;
 
-            if (Math.abs(j - x) > 30 && (Math.abs(j - x)+30) > Math.abs(s - y)) {
-                sliderDir = j > x ? true : false;
-                event.preventDefault();
+                if (Math.abs(j - x) > 30 && (Math.abs(j - x) + 30) > Math.abs(s - y)) {
+                    sliderDir = j > x ? true : false;
+                    event.preventDefault();
 
-                this.style.marginLeft = (parseInt($(this).css('marginLeft')) - (parseInt(j) - parseInt(x))) + 'px';
-                j = x;
-            }
-
-            s = y;
+                    this.style.marginLeft = (parseInt($(this).css('marginLeft')) - (parseInt(j) - parseInt(x))) + 'px';
+                    j = x;
+                }
+                s = y;
     }, false);
 
     document.getElementById('dscr-slider-inner').addEventListener('touchend', function(event) {
